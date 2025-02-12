@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
+//    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -55,9 +55,9 @@ kotlin {
         binaries.executable()
     }
 
-    room {
-        schemaDirectory("$projectDir/schemas")
-    }
+//    room {
+//        schemaDirectory("$projectDir/schemas")
+//    }
     
     sourceSets {
         val desktopMain by getting
@@ -73,7 +73,7 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -83,10 +83,14 @@ kotlin {
 
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
             implementation(libs.jetbrains.compose.navigation)
+
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.sqlite.bundled)
+
+//            implementation(libs.androidx.room.runtime)
+//            implementation(libs.sqlite.bundled)
+
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
@@ -104,9 +108,9 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
 
-        dependencies {
-            ksp(libs.androidx.room.compiler)
-        }
+//        dependencies {
+//            ksp(libs.androidx.room.compiler)
+//        }
     }
 }
 
