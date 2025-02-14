@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tiny URL</string>
+
+    <string name="before_shorten_long_url_title">Shorten a long URL</string>
+    <string name="before_shorten_original_link_hint">Enter long link here</string>
+    <string name="before_shorten_button">Shorten URL</string>
+
+    <string name="after_shorten_long_url_title">Your Long URL</string>
+    <string name="after_shorten_tiny_url_title">TinyURL</string>
+    <string name="after_shorten_button">Shorten another</string>
+</resources>
