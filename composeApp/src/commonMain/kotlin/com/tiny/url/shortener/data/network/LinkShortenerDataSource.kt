@@ -20,7 +20,7 @@ class LinkShortenerDataSource(
             httpClient.post(
                 urlString = "$BASE_URL/create"
             ) {
-                parameter("apiToken", "YOUR_API_KEY")
+                parameter("api_token", "YOUR_API_KEY")
                 parameter("url", originalLink)
             }
         }
