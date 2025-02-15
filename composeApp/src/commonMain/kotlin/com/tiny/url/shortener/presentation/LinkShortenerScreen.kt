@@ -1,5 +1,6 @@
 package com.tiny.url.shortener.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,25 +11,36 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tiny.url.core.presentation.CircularProgress
 import com.tiny.url.core.presentation.TopAppBar
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import tinyurlkmp.composeapp.generated.resources.Res
 import tinyurlkmp.composeapp.generated.resources.after_shorten_button
@@ -38,6 +50,7 @@ import tinyurlkmp.composeapp.generated.resources.app_name
 import tinyurlkmp.composeapp.generated.resources.before_shorten_button
 import tinyurlkmp.composeapp.generated.resources.before_shorten_long_url_title
 import tinyurlkmp.composeapp.generated.resources.before_shorten_original_link_hint
+import tinyurlkmp.composeapp.generated.resources.ic_copy
 
 @Composable
 fun LinkShortenerScreenRoot(
@@ -58,22 +71,37 @@ private fun LinkShortenerScreen(
     state: LinkShortenerState,
     onAction: (LinkShortenerAction) -> Unit
 ) {
-    val isShortenedLink by rememberUpdatedState(!state.tinyUrl.isNullOrBlank())
+    val isThereShortenedLink by rememberUpdatedState(!state.tinyUrl.isNullOrBlank())
     var originalLink by remember { mutableStateOf("") }
+
+    val snackBarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    val errorMessage by rememberUpdatedState(state.errorMessage?.asString())
+
+    LaunchedEffect(state.errorMessage) {
+        if (state.errorMessage != null) {
+            coroutineScope.launch {
+                snackBarHostState.showSnackbar(message = errorMessage ?: "")
+            }
+        }
+    }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = stringResource(Res.string.app_name)
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackBarHostState) }
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            if (isShortenedLink) {
+            if (isThereShortenedLink) {
                 AfterShortenLinkBox(
                     originalLink = originalLink,
                     tinyUrl = state.tinyUrl ?: "",
@@ -86,9 +114,14 @@ private fun LinkShortenerScreen(
                 BeforeShortenLinkBox(
                     originalLink = originalLink,
                     onOriginalLinkChange = { originalLink = it },
-                    onShortenClick = { onAction(LinkShortenerAction.OnShortenLinkClick(originalLink)) }
+                    onShortenClick = {
+                        onAction(LinkShortenerAction.OnShortenLinkClick(originalLink))
+                    }
                 )
             }
+        }
+        if (state.isLoading) {
+            CircularProgress()
         }
     }
 }
@@ -100,6 +133,7 @@ private fun AfterShortenLinkBox(
     tinyUrl: String,
     onShortenAnotherClick: () -> Unit
 ) {
+    val clipboardManager = LocalClipboardManager.current
     Card(
         modifier = modifier.padding(16.dp),
         shape = RoundedCornerShape(6.dp)
@@ -110,22 +144,39 @@ private fun AfterShortenLinkBox(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                modifier = modifier,
+                modifier = Modifier.fillMaxWidth(),
                 text = stringResource(Res.string.after_shorten_long_url_title),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Start
             )
             LinkInput(
                 value = originalLink,
                 readOnly = true
             )
             Text(
-                modifier = modifier,
+                modifier = Modifier.fillMaxWidth(),
                 text = stringResource(Res.string.after_shorten_tiny_url_title),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Start
             )
             LinkInput(
                 value = tinyUrl,
-                readOnly = true
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            clipboardManager.setText(
+                                annotatedString = AnnotatedString(tinyUrl)
+                            )
+                        }
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.ic_copy),
+                            contentDescription = null,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                }
             )
 
             ShortenButton(
@@ -186,9 +237,10 @@ private fun LinkInput(
     onValueChange: (String) -> Unit = {},
     readOnly: Boolean = false,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    trailingIcon: @Composable (() -> Unit)? = null,
 
-) {
+    ) {
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
@@ -197,7 +249,8 @@ private fun LinkInput(
         singleLine = true,
         readOnly = readOnly,
         keyboardActions = keyboardActions,
-        keyboardOptions = keyboardOptions
+        keyboardOptions = keyboardOptions,
+        trailingIcon = trailingIcon
     )
 }
 
