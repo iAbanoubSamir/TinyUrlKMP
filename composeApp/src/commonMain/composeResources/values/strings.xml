@@ -13,6 +13,7 @@
     <string name="error_unauthorized">Unauthorized access.</string>
     <string name="error_method_not_allowed">This action is not allowed.</string>
     <string name="error_invalid_url">Invalid URL. Please check and try again.</string>
+    <string name="error_empty_url">Empty URL. Please enter your long url.</string>
     <string name="error_too_many_requests">Too many requests. Please wait and try again later.</string>
     <string name="error_request_timeout">Request timed out. Please check your connection and try again.</string>
     <string name="error_no_internet">No internet connection. Please check your network.</string>

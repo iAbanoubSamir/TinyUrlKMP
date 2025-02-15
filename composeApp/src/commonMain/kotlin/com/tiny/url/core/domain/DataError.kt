@@ -5,6 +5,7 @@ sealed interface DataError : Error {
         UNAUTHORIZED,
         METHOD_NOT_ALLOWED,
         INVALID_URL,
+        EMPTY_URL,
         TOO_MANY_REQUESTS,
         REQUEST_TIMEOUT,
         NO_INTERNET,

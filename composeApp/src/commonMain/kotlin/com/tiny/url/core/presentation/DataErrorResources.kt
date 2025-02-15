@@ -3,6 +3,7 @@ package com.tiny.url.core.presentation
 import com.tiny.url.core.domain.DataError
 import tinyurlkmp.composeapp.generated.resources.Res
 import tinyurlkmp.composeapp.generated.resources.error_disk_full
+import tinyurlkmp.composeapp.generated.resources.error_empty_url
 import tinyurlkmp.composeapp.generated.resources.error_invalid_url
 import tinyurlkmp.composeapp.generated.resources.error_local_unknown
 import tinyurlkmp.composeapp.generated.resources.error_method_not_allowed
@@ -19,6 +20,7 @@ fun DataError.asUiText(): UiText {
         DataError.Remote.UNAUTHORIZED -> Res.string.error_unauthorized
         DataError.Remote.METHOD_NOT_ALLOWED -> Res.string.error_method_not_allowed
         DataError.Remote.INVALID_URL -> Res.string.error_invalid_url
+        DataError.Remote.EMPTY_URL -> Res.string.error_empty_url
         DataError.Remote.TOO_MANY_REQUESTS -> Res.string.error_too_many_requests
         DataError.Remote.REQUEST_TIMEOUT -> Res.string.error_request_timeout
         DataError.Remote.NO_INTERNET -> Res.string.error_no_internet
