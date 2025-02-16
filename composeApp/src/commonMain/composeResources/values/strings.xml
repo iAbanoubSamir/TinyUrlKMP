@@ -22,4 +22,8 @@
     <string name="error_unknown">An unknown error occurred. Please try again.</string>
     <string name="error_disk_full">Storage is full. Free up space and try again.</string>
     <string name="error_local_unknown">A local error occurred. Please restart the app.</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_about">About</string>
 </resources>
