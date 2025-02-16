@@ -71,6 +71,7 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
+            implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
