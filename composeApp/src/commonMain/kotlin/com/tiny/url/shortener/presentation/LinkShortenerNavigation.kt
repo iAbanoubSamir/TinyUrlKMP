@@ -17,6 +17,6 @@ fun NavGraphBuilder.linkShortenerScreen() {
     }
 }
 
-fun NavController.navigateToLinkShortener() {
+fun NavController.navigateToLinkShortenerScreen() {
     navigate(LinkShortenerRoute)
 }

@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
-//    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -55,10 +54,6 @@ kotlin {
         binaries.executable()
     }
 
-//    room {
-//        schemaDirectory("$projectDir/schemas")
-//    }
-
     sourceSets {
         val desktopMain by getting
 
@@ -89,9 +84,6 @@ kotlin {
 
             implementation(libs.kotlinx.serialization.json)
 
-//            implementation(libs.androidx.room.runtime)
-//            implementation(libs.sqlite.bundled)
-
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
@@ -113,10 +105,6 @@ kotlin {
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.js)
         }
-
-//        dependencies {
-//            ksp(libs.androidx.room.compiler)
-//        }
     }
 }
 

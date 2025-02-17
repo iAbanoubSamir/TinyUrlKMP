@@ -16,10 +16,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.tiny.url.about.presentation.AboutRoute
+import com.tiny.url.about.presentation.aboutScreen
+import com.tiny.url.about.presentation.navigateToAboutScreen
 import com.tiny.url.history.presentation.HistoryRoute
 import com.tiny.url.shortener.presentation.LinkShortenerRoute
 import com.tiny.url.shortener.presentation.linkShortenerScreen
+import com.tiny.url.shortener.presentation.navigateToLinkShortenerScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -43,9 +45,9 @@ fun App() {
                         onClick = {
                             selectedScreen = screen
                             when (screen) {
-                                Screen.HOME -> navController.navigate(LinkShortenerRoute)
+                                Screen.HOME -> navController.navigateToLinkShortenerScreen()
                                 Screen.HISTORY -> navController.navigate(HistoryRoute)
-                                Screen.ABOUT -> navController.navigate(AboutRoute)
+                                Screen.ABOUT -> navController.navigateToAboutScreen()
                             }
                         },
                         icon = {
@@ -64,6 +66,8 @@ fun App() {
                 startDestination = LinkShortenerRoute
             ) {
                 linkShortenerScreen()
+
+                aboutScreen()
             }
         }
     }
