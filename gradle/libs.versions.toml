@@ -12,8 +12,8 @@ navigationCompose = "2.8.0-alpha10"
 kotlinSerialization = "1.7.3"
 koin = "4.0.0"
 ktor = "3.0.3"
-ksp = "2.0.20-1.0.24"
 kotlinxDateTime = "0.6.2"
+ksp = "2.0.20-1.0.24"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
