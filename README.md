@@ -33,7 +33,8 @@ official [TinyURL API](https://tinyurl.com/app/dev) to generate short links quic
 
 Watch the app in action:
 
-![Demo](videos/Demo.mp4)
+https://github.com/user-attachments/assets/7f7fc8be-73f4-47f3-9e17-0f1dd00c075d
+
 
 ## Getting Started
 
