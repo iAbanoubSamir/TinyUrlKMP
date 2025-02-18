@@ -56,7 +56,7 @@ Ensure you have the following installed:
 3. Sync the Gradle files.
 4. Replace `YOUR_API_KEY` in
    `composeApp/src/commonMain/kotlin/com/tiny/url/shortener/data/network/LinkShortenerDataSource.kt`
-   with your actual API token from: [TinyURL API](https://tinyurl.com/app/dev).
+   with your actual API token from: [TinyURL API](https://tinyurl.com/app/settings/api).
 
 ### Running the Project
 
@@ -64,6 +64,11 @@ Ensure you have the following installed:
 - **iOS:** Run `iosApp` configuration in Xcode.
 - **Desktop:** Execute the `:composeApp:run` Gradle task.
 - **Web:** Use `:composeApp:wasmJsBrowserDevelopmentRun` in Android Studio.
+
+## To-Do List
+
+- [ ] Create JS target (since room 2.7.0 and sqldelight 2.0.2 does not support wasmJs).
+- [ ] Implement history feature using SQLDelight/Room.
 
 ## Contributing
 
