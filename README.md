@@ -19,7 +19,7 @@ official [TinyURL API](https://tinyurl.com/app/dev) to generate short links quic
 ## Technologies Used
 
 - **Kotlin Multiplatform (KMP):** Shared business logic across all platforms.
-- **Compose Multiplatform:** Shared UI across all platforms.
+- **Compose Multiplatform (CMP):** Shared UI across all platforms.
 - **Ktor:** Networking for API requests.
 - **Koin:** Dependency injection.
 - **SQLDelight:** Local database storage for link history.
@@ -33,8 +33,7 @@ official [TinyURL API](https://tinyurl.com/app/dev) to generate short links quic
 
 Watch the app in action:
 
-https://github.com/user-attachments/assets/7f7fc8be-73f4-47f3-9e17-0f1dd00c075d
-
+https://github.com/user-attachments/assets/d332e634-6d00-4b84-97fd-be6ec29a5d45
 
 ## Getting Started
 
