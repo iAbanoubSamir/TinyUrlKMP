@@ -14,24 +14,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.tiny.url.about.presentation.aboutScreen
 import com.tiny.url.about.presentation.navigateToAboutScreen
 import com.tiny.url.history.presentation.HistoryRoute
+import com.tiny.url.history.presentation.historyScreen
 import com.tiny.url.shortener.presentation.LinkShortenerRoute
 import com.tiny.url.shortener.presentation.linkShortenerScreen
 import com.tiny.url.shortener.presentation.navigateToLinkShortenerScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tinyurlkmp.composeapp.generated.resources.Res
 import tinyurlkmp.composeapp.generated.resources.nav_about
 import tinyurlkmp.composeapp.generated.resources.nav_history
 import tinyurlkmp.composeapp.generated.resources.nav_home
 
 @Composable
-@Preview
 fun App() {
     val navController = rememberNavController()
     var selectedScreen by remember { mutableStateOf(Screen.HOME) }
@@ -61,15 +61,20 @@ fun App() {
                 }
             }
         ) {
-            NavHost(
-                navController = navController,
-                startDestination = LinkShortenerRoute
-            ) {
-                linkShortenerScreen()
-
-                aboutScreen()
-            }
+            AppNavHost(navController)
         }
+    }
+}
+
+@Composable
+fun AppNavHost(navController: NavHostController) {
+    NavHost(
+        navController = navController,
+        startDestination = LinkShortenerRoute
+    ) {
+        linkShortenerScreen()
+        historyScreen()
+        aboutScreen()
     }
 }
 
