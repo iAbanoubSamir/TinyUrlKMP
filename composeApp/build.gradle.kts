@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -64,6 +65,8 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
+
+            implementation(libs.sqldelight.driver.android)
         }
         commonMain.dependencies {
             implementation(compose.material3AdaptiveNavigationSuite)
@@ -96,14 +99,23 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
+
+            implementation(libs.sqldelight.driver.sqlite)
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
+
+            implementation(libs.sqldelight.driver.native)
         }
 
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.js)
+            implementation(libs.sqldelight.driver.js)
+        }
+
+        jsMain.dependencies {
+
         }
     }
 }
@@ -147,6 +159,14 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.tiny.url"
             packageVersion = "1.0.0"
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("TinyUrlDatabase") {
+            packageName.set("com.tiny.url")
         }
     }
 }
